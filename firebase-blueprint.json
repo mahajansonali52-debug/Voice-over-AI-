@@ -1,0 +1,78 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with real-time identifier, name, and email details from Google Identity.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" }
+      },
+      "required": ["uid", "name", "email"]
+    },
+    "Subscription": {
+      "title": "Subscription",
+      "description": "Active user tier or package subscription information.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userName": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "planId": { "type": "string" },
+        "planName": { "type": "string" },
+        "price": { "type": "number" },
+        "status": { "type": "string" },
+        "startedAt": { "type": "string" },
+        "renewalAt": { "type": "string" },
+        "billingFrequency": { "type": "string" }
+      },
+      "required": ["id", "userName", "userEmail", "planId", "planName", "price", "status"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "Voice actor direct script recording and production booking project transaction data.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "actorId": { "type": "string" },
+        "actorName": { "type": "string" },
+        "projectName": { "type": "string" },
+        "selectedMood": { "type": "string" },
+        "wordCount": { "type": "number" },
+        "totalPrice": { "type": "number" },
+        "paymentType": { "type": "string" },
+        "clientPhone": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": [
+        "id",
+        "actorId",
+        "actorName",
+        "projectName",
+        "selectedMood",
+        "wordCount",
+        "totalPrice",
+        "paymentType",
+        "clientPhone",
+        "userEmail",
+        "createdAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Client profile configuration matching user authentication identifier."
+    },
+    "/subscriptions/{subscriptionId}": {
+      "schema": "Subscription",
+      "description": "Stores current subscription plan instances."
+    },
+    "/bookings/{bookingId}": {
+      "schema": "Booking",
+      "description": "All voiceover projects and recordings requested securely by clients."
+    }
+  }
+}

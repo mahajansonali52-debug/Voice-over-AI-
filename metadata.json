@@ -1,0 +1,6 @@
+{
+  "name": "Voice Over Booking Marketplace",
+  "description": "Browse, sample, and book professional voice actors. Includes high-quality demo playbacks, 10-minute automated trial limits, subscription billing mechanics, checkout workflows, and a full-featured admin dashboard with earnings analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
