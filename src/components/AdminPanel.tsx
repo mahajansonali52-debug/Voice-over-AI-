@@ -455,48 +455,70 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
           
           {/* Column 1: Configured Merchant Details */}
           <div className="bg-white border border-slate-150 p-5 rounded-2xl flex flex-col justify-between space-y-4">
-            <div className="space-y-3">
-              <h5 className="text-xs font-black text-slate-800 uppercase tracking-wider font-sans">1. Account Information</h5>
-              <p className="text-[11px] text-slate-400 leading-relaxed">
-                Add your local UPI ID and details to receive instant bank notification alerts whenever clients register or pre-book custom projects.
-              </p>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                <h5 className="text-xs font-black text-slate-800 uppercase tracking-wider font-sans">1. Account Information</h5>
+                <span className="text-[9px] bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded text-emerald-700 font-extrabold animate-pulse">
+                  Recipient Active
+                </span>
+              </div>
+
+              <div className="bg-slate-50/70 p-3.5 rounded-xl border border-slate-150 space-y-2">
+                <div className="flex items-center justify-between text-[11px] font-sans">
+                  <span className="text-slate-400 font-medium">Recipient Mobile:</span>
+                  <strong className="text-slate-800 font-mono font-black">+91 8208152171</strong>
+                </div>
+                <div className="flex items-center justify-between text-[11px] font-sans">
+                  <span className="text-slate-400 font-medium">Destination UPI ID:</span>
+                  <strong className="text-indigo-600 font-mono font-black">this@paytm</strong>
+                </div>
+              </div>
               
               <div className="space-y-2 pt-1 font-sans">
                 <div>
-                  <label className="text-[10px] uppercase font-black tracking-wider text-slate-400 block mb-1">Your Destination UPI ID*</label>
+                  <label className="text-[10px] uppercase font-black tracking-wider text-slate-400 block mb-1">Update Destination UPI*</label>
                   <input
                     type="text"
-                    defaultValue="8208152171@paytm"
+                    defaultValue="this@paytm"
                     placeholder="Enter your UPI (e.g., cellNo@paytm)"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2 md:p-2.5 text-xs focus:ring-1 focus:ring-indigo-500 text-slate-800 font-bold font-mono"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs focus:ring-1 focus:ring-indigo-500 text-slate-700 font-bold font-mono"
                   />
-                  <span className="text-[8.5px] text-emerald-600 font-medium block mt-0.5">● Active for instant direct escrow transfers</span>
+                  <span className="text-[8.5px] text-emerald-600 font-medium block mt-1">
+                    ● Direct routing active for mobile destination <strong className="font-bold">8208152171</strong>
+                  </span>
                 </div>
 
-                <div>
-                  <label className="text-[10px] uppercase font-black tracking-wider text-slate-400 block mb-1">Razorpay Key ID</label>
-                  <input
-                    type="text"
-                    defaultValue="rzp_live_920831Mahajan52"
-                    placeholder="rzp_live_xxxxxxxxxxxx"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 font-semibold font-mono"
-                  />
+                {/* FAQ: How we track payments & assign access */}
+                <div className="border-t border-slate-100 pt-3.5 space-y-3">
+                  <div className="space-y-1.5">
+                    <h6 className="text-[10px] uppercase font-black tracking-wider text-slate-800 flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+                      How we know you got money:
+                    </h6>
+                    <div className="bg-indigo-50/40 border border-indigo-100 p-2.5 rounded-xl text-[10.5px] text-indigo-950 font-sans leading-relaxed">
+                      Whenever a customer clicks checkout and pays simulated or live funds, Razorpay/Stripe instantly triggers a secure backend transaction status as <code className="bg-indigo-100 rounded px-1 font-mono font-bold text-[9px] text-indigo-700">completed</code>, writing a matching payload to your <strong className="text-indigo-900">Google Firestore Database</strong> instantly.
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <h6 className="text-[10px] uppercase font-black tracking-wider text-slate-800 flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                      To whom we grant subscription:
+                    </h6>
+                    <div className="bg-emerald-50/40 border border-emerald-120/40 p-2.5 rounded-xl text-[10.5px] text-emerald-950 font-sans leading-relaxed">
+                      Access is instantly bound to the **currently signed-in Google Account email** (the customer checking out). The app's real-time <code className="bg-emerald-100 rounded px-1 font-mono font-bold text-[9px] text-emerald-700">onSnapshot</code> listener listens to Firestore changes, unlocking premium voiceover privileges for that user in under 1 second without forcing a manual refresh!
+                      <div className="mt-1.5 pt-1.5 border-t border-emerald-200/50 text-[9px] text-emerald-800">
+                        🔑 Owner email <strong className="text-slate-900 font-bold font-mono">mahajansonali52@gmail.com</strong> is auto-whitelisted for lifetime free Enterprise access.
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                <div>
-                  <label className="text-[10px] uppercase font-black tracking-wider text-slate-400 block mb-1">Your Direct Bank (Settlements)</label>
-                  <select className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 font-bold cursor-pointer">
-                    <option>Paytm Payments Bank / UPI Account</option>
-                    <option>State Bank of India (India)</option>
-                    <option>HDFC Bank Ltd.</option>
-                    <option>ICICI Bank Ltd.</option>
-                  </select>
-                </div>
               </div>
             </div>
 
-            <div className="bg-indigo-50/50 p-3 rounded-xl border border-indigo-120/40 text-[10px] text-indigo-800 leading-snug">
-              <strong>💡 Pro Tip:</strong> Change inputs to customize settlement destinations dynamically in real-time.
+            <div className="bg-slate-50 border border-slate-150 p-2.5 rounded-xl text-[9.5px] text-slate-450 leading-relaxed font-sans">
+              💡 Your destination number, payment rules, and sync parameters are configured inside standard database triggers.
             </div>
           </div>
 
@@ -532,7 +554,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 </div>
                 <strong className="text-slate-800 block text-xs">T+1 Direct Deposit!</strong>
                 <p className="text-slate-500 font-medium">
-                  Money settles straight into your bank/UPI endpoint (<strong className="text-slate-700">8208152171@paytm</strong>) without middle-man manual delays. You will receive SMS alerts instantly!
+                  Money settles straight into your bank/UPI endpoint (<strong className="text-slate-700">this@paytm</strong>) without middle-man manual delays. You will receive SMS alerts instantly!
                 </p>
               </div>
 

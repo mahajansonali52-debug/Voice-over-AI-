@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, signOut } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import firebaseConfig from '../firebase-applet-config.json';
 
@@ -8,8 +8,8 @@ export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId); /* CRIT
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 
-// Standard Popup Authentic Sign In Helper matching our integration guidelines
-export { signInWithPopup, signOut };
+// Standard Popup & Redirect Authentic Sign In Helpers matching our integration guidelines
+export { signInWithPopup, signInWithRedirect, signOut };
 
 // Diagnostic Error Handler
 export enum OperationType {

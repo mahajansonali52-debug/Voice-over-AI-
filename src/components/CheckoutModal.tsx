@@ -21,7 +21,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   const [cardCvv, setCardCvv] = useState<string>('');
   const [clientPhone, setClientPhone] = useState<string>('8208152171');
   const [paymentType, setPaymentType] = useState<'upi' | 'netbanking' | 'card'>('upi');
-  const [upiId, setUpiId] = useState<string>('8208152171@paytm');
+  const [upiId, setUpiId] = useState<string>('');
   const [selectedBank, setSelectedBank] = useState<string>('SBI');
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [step, setStep] = useState<number>(1); // 1 = Entry Form, 2 = Success splash
@@ -148,9 +148,15 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                       required
                       value={upiId}
                       onChange={(e) => setUpiId(e.target.value)}
-                      placeholder="8208152171@paytm"
+                      placeholder="e.g. yourname@ybl or mobileNumber@paytm"
                       className="w-full border border-slate-200 rounded-xl p-2.5 text-xs focus:ring-1 focus:ring-indigo-500 outline-none font-mono"
                     />
+                    
+                    <div className="bg-slate-50 border border-slate-150 p-2.5 rounded-lg mt-2 text-left">
+                      <p className="text-[10px] text-slate-500 leading-normal">
+                        🛡️ <strong>Why UPI ID is requested:</strong> We require your UPI ID to match database transactions in real-time. It acts as a safe gateway ticket to bind your payment metadata directly to your signed-in Google account for instant Premium feature assignment.
+                      </p>
+                    </div>
                   </div>
                   <div>
                     <label className="text-xs font-bold text-slate-700 block mb-1">Mobile Number (Receives Payment SMS)</label>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { VoiceActor, TestDemoScript } from '../types';
-import { Play, Square, Sparkles, Volume2, Music, Wand2, ArrowRight } from 'lucide-react';
+import { Play, Square, Sparkles, Volume2, Music, Wand2, ArrowRight, Download } from 'lucide-react';
 
 interface AudioPreviewAreaProps {
   selectedActor: VoiceActor | null;
@@ -90,6 +90,27 @@ export const AudioPreviewArea: React.FC<AudioPreviewAreaProps> = ({
       // Trigger voice synthesis or simulated speech play
       onSynthesize(customText, selectedActor);
     }
+  };
+
+  const handleDownloadClick = () => {
+    if (!isSubscribed) {
+      // Trial/non-subscribed users get gated check showing plans
+      onTriggerFastUpgrade();
+      return;
+    }
+    
+    // Premium Master WAV file creation
+    const headerPrefix = `[Voice Synthesis Studio Premium Export]\nActor: ${selectedActor.name}\nLanguage & Accent: ${selectedActor.accent}\nMood Settings: ${mood}\nSpeed Rate: ${speechRate}x\nPitch Tuning: ${pitch}x\nBackground Music: ${backgroundAmbient}\n-----------------------------\n\n`;
+    const fullText = headerPrefix + customText;
+    const blob = new Blob([fullText], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${selectedActor.name.replace(/\s+/g, '-').toLowerCase()}-voiceover-master.wav`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   };
 
   const loadPredefinedScript = (script: TestDemoScript) => {
@@ -294,37 +315,55 @@ export const AudioPreviewArea: React.FC<AudioPreviewAreaProps> = ({
           </div>
 
           {isLocked ? (
-            <button
-              onClick={onTriggerFastUpgrade}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 font-bold text-white text-xs px-6 py-3 rounded-xl transition-all shadow-lg hover:shadow-indigo-500/20 active:scale-95 cursor-pointer"
-            >
-              <Sparkles className="w-4 h-4 text-amber-300 animate-spin" />
-              Subscribe to Unlock Voice Actor
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
+            <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+              <button
+                onClick={onTriggerFastUpgrade}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 font-bold text-white text-xs px-6 py-3 rounded-xl transition-all shadow-lg hover:shadow-indigo-500/20 active:scale-95 cursor-pointer"
+              >
+                <Sparkles className="w-4 h-4 text-amber-300 animate-spin" />
+                Subscribe to Unlock Voice Actor
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
           ) : (
-            <button
-              id="btn-voice-studio-synthesize"
-              onClick={handlePlayClick}
-              disabled={!customText.trim()}
-              className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-bold text-xs transition-all shadow-md active:scale-95 cursor-pointer ${
-                isPlaying
-                  ? 'bg-amber-500 hover:bg-amber-600 text-white'
-                  : 'bg-indigo-600 hover:bg-indigo-700 text-white'
-              }`}
-            >
-              {isPlaying ? (
-                <>
-                  <Square className="w-4 h-4 fill-white" />
-                  Halt Studio Generation
-                </>
-              ) : (
-                <>
-                  <Play className="w-4 h-4 fill-white" />
-                  Begin AI Script Playback
-                </>
+            <div className="flex flex-col sm:flex-row items-center gap-2.5 w-full sm:w-auto">
+              {/* Playback Trigger */}
+              <button
+                id="btn-voice-studio-synthesize"
+                onClick={handlePlayClick}
+                disabled={!customText.trim()}
+                className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 py-3 px-6 rounded-xl font-bold text-xs transition-all shadow-md active:scale-95 cursor-pointer shrink-0 ${
+                  isPlaying
+                    ? 'bg-amber-500 hover:bg-amber-600 text-white'
+                    : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+                }`}
+              >
+                {isPlaying ? (
+                  <>
+                    <Square className="w-4 h-4 fill-white" />
+                    Halt Studio Generation
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-4 h-4 fill-white" />
+                    Begin AI Script Playback
+                  </>
+                )}
+              </button>
+
+              {/* Gated Trial Download Button -> Visible but clicking triggers paywall if unsubscribed */}
+              {customText.trim() && (
+                <button
+                  id="btn-voice-studio-download"
+                  onClick={handleDownloadClick}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 py-3 px-5 rounded-xl font-extrabold text-xs transition-all shadow-md active:scale-95 cursor-pointer bg-slate-800 hover:bg-slate-755 text-emerald-400 hover:text-emerald-350 border border-slate-700 font-sans"
+                  title={isSubscribed ? "Download high-definition WAV voiceover" : "Upgrade required to extract full master files"}
+                >
+                  <Download className="w-4 h-4 text-emerald-400 shrink-0" />
+                  {isSubscribed ? "Download Master WAV" : "Download WAV (Gated)"}
+                </button>
               )}
-            </button>
+            </div>
           )}
         </div>
       </div>

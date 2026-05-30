@@ -27,7 +27,7 @@ export const BookingFormModal: React.FC<BookingFormModalProps> = ({
   
   // Custom Indian payment selector
   const [paymentType, setPaymentType] = useState<'upi' | 'netbanking' | 'card'>('upi');
-  const [upiId, setUpiId] = useState<string>('8208152171@paytm');
+  const [upiId, setUpiId] = useState<string>('');
   const [selectedBank, setSelectedBank] = useState<string>('SBI');
 
   // Credit Card Form states
@@ -350,18 +350,30 @@ export const BookingFormModal: React.FC<BookingFormModalProps> = ({
                   <p className="text-xs text-slate-500 mt-0.5">Pay via GPay, PhonePe, Paytm, or BHIM</p>
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-700 block">Enter Your UPI ID / VPA</label>
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-bold text-slate-700 block">Enter Your UPI ID / VPA</label>
+                    <span className="text-[9px] bg-slate-100 px-2 py-0.5 rounded text-slate-550 font-bold">Encrypted Routing</span>
+                  </div>
+                  
                   <div className="relative">
                     <input
                       type="text"
                       required
                       value={upiId}
                       onChange={(e) => setUpiId(e.target.value)}
-                      placeholder="8208152171@paytm"
+                      placeholder="e.g. mobileNumber@paytm or yourname@oksbi"
                       className="w-full border border-slate-200 bg-white rounded-xl p-2.5 text-xs focus:ring-1 focus:ring-indigo-500 outline-none font-mono"
                     />
                   </div>
+
+                  <div className="bg-indigo-50/50 border border-indigo-100 p-2.5 rounded-xl space-y-1 text-left">
+                    <h6 className="text-[10px] font-black uppercase tracking-wider text-indigo-900 font-sans">Why do we need your UPI ID?</h6>
+                    <p className="text-[10px] text-indigo-950 font-sans leading-relaxed">
+                      We associate your unique payment profile with this project script. This allows Razorpay & Google Firestore to match your escrow deposit instantly and securely authorize high-definition vocal MASTER exports immediately. No automated debits can ever transpire without your manual PIN entry in your personal banking application.
+                    </p>
+                  </div>
+
                   <div className="flex flex-wrap gap-1.5 mt-1">
                     <button type="button" onClick={() => setUpiId(`${clientPhone}@paytm`)} className="text-[10px] bg-slate-100 hover:bg-slate-200 text-slate-600 px-2 py-1 rounded font-mono">@{clientPhone}@paytm</button>
                     <button type="button" onClick={() => setUpiId(`${clientPhone}@ybl`)} className="text-[10px] bg-slate-100 hover:bg-slate-200 text-slate-600 px-2 py-1 rounded font-mono">@ybl</button>
